@@ -18,33 +18,32 @@ const Login = ({loginStatus,pass,submit,change})=>{
   }
 }
 
-export default connect(
-  s=>{return s},
-  (dispatch)=>{
-    return {
-      change: (e)=> {
-        dispatch({
-          type:'input',
-          name:e.target.name,
-          value:e.target.value
-        })
-      },
-      submit: (e)=>{
-        e.preventDefault();
-        dispatch({type:'doLogin'});
-        if ( Math.random() > 0.5 ){
-          setTimeout(t=>{
-            dispatch({type:'loginSuccess'});
-          },1000)
-        } else {
-          setTimeout( t => {
-            dispatch({type:'loginFail'});
-          },1000)
-          setTimeout( t => {
-            dispatch({type:'loginReset'});
-          },2000)
-        }
+const dispatchers = (dispatch)=>{
+  return {
+    change: (e)=> {
+      dispatch({
+        type:'input',
+        name:e.target.name,
+        value:e.target.value
+      })
+    },
+    submit: (e)=>{
+      e.preventDefault();
+      dispatch({type:'loginStatus',status:'progress'});
+      if ( Math.random() > 0.5 ){
+        setTimeout(t=>{
+          dispatch({type:'loginStatus',status:'success'});
+        },1000)
+      } else {
+        setTimeout( t => {
+          dispatch({type:'loginStatus',status:'fail'});
+        },1000)
+        setTimeout( t => {
+          dispatch({type:'loginStatus',status:false});
+        },2000)
       }
-    };
-  }
-)(Login)
+    }
+  };
+}
+
+export default connect( s=>{return s}, dispatchers )( Login )

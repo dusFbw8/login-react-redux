@@ -4,17 +4,8 @@ export default (state={},action)=>{
     case "input":
       state = {...state, [action.name]:action.value };
       break;
-    case "doLogin":
-      state = {...state, loginStatus:'progress'};
-      break;
-    case "loginSuccess":
-      state = {...state, loginStatus:'success'};
-      break;
-    case "loginFail":
-      state = {...state, loginStatus:'fail'};
-      break;
-    case "loginReset":
-      state = {...state, loginStatus:false};
+    case "loginStatus":
+      state = {...state, loginStatus:action.status};
       break;
     default:
   }
