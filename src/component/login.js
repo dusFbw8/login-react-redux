@@ -18,6 +18,25 @@ const Login = ({loginStatus,pass,submit,change})=>{
   }
 }
 
+
+const submitLogin = ()=>{
+  return (dispatch)=>{
+    dispatch({type:'loginStatus',status:'progress'});
+    if ( Math.random() > 0.5 ){
+      setTimeout(t=>{
+        dispatch({type:'loginStatus',status:'success'});
+      },1000)
+    } else {
+      setTimeout( t => {
+        dispatch({type:'loginStatus',status:'fail'});
+      },1000)
+      setTimeout( t => {
+        dispatch({type:'loginStatus',status:false});
+      },2000)
+    }
+  }
+}
+
 const dispatchers = (dispatch)=>{
   return {
     change: (e)=> {
@@ -29,19 +48,7 @@ const dispatchers = (dispatch)=>{
     },
     submit: (e)=>{
       e.preventDefault();
-      dispatch({type:'loginStatus',status:'progress'});
-      if ( Math.random() > 0.5 ){
-        setTimeout(t=>{
-          dispatch({type:'loginStatus',status:'success'});
-        },1000)
-      } else {
-        setTimeout( t => {
-          dispatch({type:'loginStatus',status:'fail'});
-        },1000)
-        setTimeout( t => {
-          dispatch({type:'loginStatus',status:false});
-        },2000)
-      }
+      dispatch(submitLogin());
     }
   };
 }
