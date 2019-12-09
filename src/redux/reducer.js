@@ -5,7 +5,16 @@ export default (state={},action)=>{
       state = {...state, [action.name]:action.value };
       break;
     case "doLogin":
-      state = {...state, loginInProgress:true}
+      state = {...state, loginStatus:'progress'};
+      break;
+    case "loginSuccess":
+      state = {...state, loginStatus:'success'};
+      break;
+    case "loginFail":
+      state = {...state, loginStatus:'fail'};
+      break;
+    case "loginReset":
+      state = {...state, loginStatus:false};
       break;
     default:
   }
