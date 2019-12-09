@@ -18,18 +18,26 @@ const Login = ({loginStatus,pass,submit,change})=>{
   }
 }
 
-
-const submitLogin = ()=>{
-  return (dispatch)=>{
+const submitLogin = (user='anx')=>{
+  return async (dispatch,getState)=>{
     dispatch({type:'loginStatus',status:'progress'});
-    if ( Math.random() > 0.5 ){
-      setTimeout(t=>{
-        dispatch({type:'loginStatus',status:'success'});
-      },1000)
+    let state = getState();
+    let result = await fetch(
+      '/login',
+      {
+        method:'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          {pass:state.pass}
+        )
+      }
+    )
+    let json = await result.json()
+    console.log(json);
+    if ( json.success === true ){
+      dispatch({type:'loginStatus',status:'success'});
     } else {
-      setTimeout( t => {
-        dispatch({type:'loginStatus',status:'fail'});
-      },1000)
+      dispatch({type:'loginStatus',status:'fail'});
       setTimeout( t => {
         dispatch({type:'loginStatus',status:false});
       },2000)
